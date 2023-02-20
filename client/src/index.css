@@ -1,0 +1,41 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.react-confirm-alert-body {
+  padding-bottom: 15px;
+  padding-right: 15px;
+  font-size: 14px;
+}
+
+.react-confirm-alert-body > h1 {
+  font-size: 16px;
+}
+
+.react-confirm-alert-button-group {
+  display: block;
+  text-align: right;
+}
+
+.react-confirm-alert-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.react-confirm-alert-button-group > button {
+  background-color: #186881;
+}
+
+.notification-success {
+  background-color: #186881;
+}
+

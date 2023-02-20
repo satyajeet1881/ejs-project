@@ -1,0 +1,594 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.100",
+    "title": "BACKEND API Documentation",
+    "description": "#BACKEND API Documentation\n---\n"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "paths": {
+    "/auth/login/basic": {  
+      "x-swagger-router-controller": "authentication",
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "loginWithEmailPassword",
+        "summary": "login user with email and password",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "login user with email and password",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/lottery": {
+      "x-swagger-router-controller": "lottery",
+      "post": {
+        "tags": [
+          "Lottery"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "createLottery",
+        "summary": "create Lottery",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "lottery Request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LotteryRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/LoginPhoneResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Lottery"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "getLotteryData",
+        "summary": "get Lottery By Admin",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "lotteryName",
+            "in": "query",
+            "description": "lotteryName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "publishDate",
+            "in": "query",
+            "description": "publishDate",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "sortBy",
+            "required": false,
+            "enum": [
+              "lotteryName",
+              "code",
+              "publishDate"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "orderBy",
+            "in": "query",
+            "description": "orderBy",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "ASC",
+              "DESC"
+            ]
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "limit",
+            "minimum": 1,
+            "maximum": 30,
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "description": "skip",
+            "minimum": 0,
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/lottery/{lotteryId}": {
+      "x-swagger-router-controller": "lottery",
+      "put": {
+        "tags": [
+          "Lottery"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "updateLottery",
+        "summary": "update Lottery Data",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "lotteryId",
+            "in": "path",
+            "description": "lotteryId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "lottery Request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LotteryRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/LoginPhoneResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Lottery"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "deleteLottery",
+        "summary": "delete Lottery",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "lotteryId",
+            "in": "path",
+            "description": "lotteryId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/LoginPhoneResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/lotteryName": {
+      "x-swagger-router-controller": "lottery",
+      "post": {
+        "tags": [
+          "Lottery"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "saveLotteryName",
+        "summary": "save Lottery Name",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "lottery Request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LotteryNameRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/LoginPhoneResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Lottery"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "getLotteryName",
+        "summary": "get Lottery By Admin",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/lotteryName/{lotteryIdNameId}": {
+      "x-swagger-router-controller": "lottery",
+      "delete": {
+        "tags": [
+          "Lottery"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "deleteLotteryName",
+        "summary": "delete Lottery Name",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "lotteryIdNameId",
+            "in": "path",
+            "description": "lotteryIdNameId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/LoginPhoneResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/public/lottery": {
+      "x-swagger-router-controller": "lottery",
+      "get": {
+        "tags": [
+          "Lottery"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "getPublicLotteryData",
+        "summary": "get Lottery By Admin",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "lotteryName",
+            "in": "query",
+            "description": "lotteryName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "publishDate",
+            "in": "query",
+            "description": "publishDate",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "time",
+            "in": "query",
+            "description": "time",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "description": "format",
+            "enum": [
+              "m",
+              "y",
+              "d"
+            ],
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "sortBy",
+            "required": false,
+            "enum": [
+              "lotteryName",
+              "code",
+              "publishDate"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "orderBy",
+            "in": "query",
+            "description": "orderBy",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "ASC",
+              "DESC"
+            ]
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "limit",
+            "minimum": 1,
+            "maximum": 30,
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "description": "skip",
+            "minimum": 0,
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "LotteryRequest": {
+      "required": [
+        "lotteryName",
+        "code",
+        "publishDate"
+      ],
+      "properties": {
+        "lotteryName": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "publishDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "LotteryNameRequest": {
+      "required": [
+        "lotteryName"
+      ],
+      "properties": {
+        "lotteryName": {
+          "type": "string"
+        }
+      }
+    },
+    "LoginPhoneResponse": {
+      "required": [
+        "userId",
+        "token"
+      ],
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        },
+        "isNewUser": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  
+  }
+}

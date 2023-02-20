@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  ejs-project:
+    restart: always
+    build:
+      context: ./
+      dockerfile: dockerfile
+    container_name: ejs-project
+    ports:
+      - "3000:3000"
+    environment:
+      - JWT_ALGO=$JWT_ALGO
+      - ALLOWED_ORIGINS=$ALLOWED_ORIGINS
+      - JWT_EXPIRES_IN=$JWT_EXPIRES_IN
+      - NETWORK_WEBHOOK_SECRET=$NETWORK_WEBHOOK_SECRET
+      - JWT_ISSUER=$JWT_ISSUER
+      - JWT_AUDIENCE=$JWT_AUDIENCE
+      - ENCRYPTION_KEY=$ENCRYPTION_KEY
+      - ENCRYPTION_IV=$ENCRYPTION_IV
+      - ENCRYPTION_ALGORITHM=$ENCRYPTION_ALGORITHM
+      - ADMIN_EMAIL=$ADMIN_EMAIL
+      - ADMIN_PASSWORD=$ADMIN_PASSWORD
+      - MONGO_DB_URL=$MONGO_DB_URL
+      - REACT_APP_BACKEND_BASE_URL=$REACT_APP_BACKEND_BASE_URL
+
+    volumes:
+      - server_logs:/usr/src/app/logs
+      - web_images:/usr/src/app/images
+
+volumes:
+  server_logs:
+  web_images:
