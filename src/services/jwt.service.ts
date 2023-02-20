@@ -10,6 +10,7 @@ export class JWTService {
      private static instance: JWTService
      verifyToken (token: string, scopes: JWTScopes = ['auth']): UserProfile {
        try {
+         console.log('env.JWT_ALGO,', env.JWT_ALGO)
          const audience = env?.JWT_AUDIENCE.split(/\s|,/)
          const options: VerifyOptions = { issuer: env.JWT_ISSUER, algorithms: [env.JWT_ALGO], audience }
          const { payload } = verify(token, env.NETWORK_WEBHOOK_SECRET, options) as {payload: UserProfile}
