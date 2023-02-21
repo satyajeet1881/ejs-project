@@ -31,7 +31,7 @@ initializeMiddleware(swaggerDocument, (middleware: Middleware20) => {
 
   new CorsProvider().corsRequest(app)
   // new core().corsConfiguration(app);
-
+  console.log('env.JWT_ALGO', env.JWT_ALGO)
   app.set('views', path.join(__dirname, 'views'))
   app.set('view engine', 'jade')
   app.use(middleware.swaggerUi())

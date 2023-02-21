@@ -5,12 +5,12 @@ import restActions from '../actions/rest'
 import logo from '../images/new.gif'
 import illusion from '../images/advertising.jpeg'
 const initialHeaderValues = {
-  header: 'बीकानेर सट्टा बाज़ार',
+  header: 'मेरठ बाज़ार सट्टा किंग 7 PM',
   subHeading: 'आज का बाजार भाव',
   brandName: 'Your brand name can come here!',
   oldCode: '',
   newCode: '',
-  tableHeader: 'बीकानेर सट्टा बाज़ार लॉटरी चार्ट दिसंबर 2023',
+  tableHeader: 'मेरठ बाज़ार सट्टा किंग 7 PM',
   tableResultTime: format(new Date(), "hh:mm aaaaa'm'")
 }
 
@@ -40,12 +40,12 @@ const Card = (props) => {
 const apiData =[]
 let oldDetail = []
 for (let i = 23; i < 24; i++) {
-  oldDetail.push({ desc: `Bikaner Satta King Chart 20${i}` })
+  oldDetail.push({ desc: `Meerut Bazar Satta king 7 PM Chart 20${i}` })
 }
 let oldDataWithCity = []
 for (let i = 0; i < [...new Set(...apiData.map(x => x.cities.map(y => y.name)))].length; i++) {
   const element = [...new Set(...apiData.map(x => x.cities.map(y => y.name)))][i];
-  oldDataWithCity.push({ desc: ` Bikaner Satta King Chart ${element}` })
+  oldDataWithCity.push({ desc: ` Meerut Bazar Satta king 7 PM Chart ${element}` })
 }
 
 export const Home = () => {
@@ -165,9 +165,7 @@ export const Home = () => {
           </div>
         ))}
        <div className='px-2 mt-5'>
-          <p>Bikaner Satta King Result Chart 2022</p>
-          <p>Results for Bikaner Satta King, Bikaner Satta King game, new result for Bikaner, old result for Bikaner Satta King game, king sBikaner game chart 2022, Bikaner Satta King result record chart for today, king Bikaner Satta King, Bikaner Satta King result, Bikaner Satta King king, king Bikaner Satta King result, Bikaner Satta King number, king Bikaner Satta King chart, Bikaner Satta Kingresult, Bikaner Satta Kingbazar, Bikaner Satta KingSatta and all game results can be found here monthly. We have monthly and yearly bashed results data and its update only from the company authorized members. Please bookmark this website page and get the update on time. Hope you enjoy your game and earn money without any issue, if you have any query or problem feel free to contact with our Khaiwal or online playing person we will work on your query and will short out very soon.
-            Thank you for providing your bless and love to the Bikaner.</p>
+          <p>Meerut Bazar Satta king 7 PM </p>
         </div>
       </div>
   
