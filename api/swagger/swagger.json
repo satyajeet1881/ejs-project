@@ -25,7 +25,7 @@
     }
   },
   "paths": {
-    "/auth/login/basic": {  
+    "/auth/login/basic": {
       "x-swagger-router-controller": "authentication",
       "post": {
         "tags": [
@@ -456,6 +456,24 @@
             "format": "date-time"
           },
           {
+            "name": "month",
+            "in": "query",
+            "maximum": 12,
+            "minimum": 1,
+            "description": "month",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "description": "year",
+            "required": false,
+            "minLength": 4,
+            "maxLength": 4,
+            "type": "number"
+          },
+          {
             "name": "time",
             "in": "query",
             "description": "time",
@@ -589,6 +607,5 @@
         }
       }
     }
-  
   }
 }

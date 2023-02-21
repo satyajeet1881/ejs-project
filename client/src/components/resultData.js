@@ -1,56 +1,57 @@
-import { useState, useEffect } from 'react';
-import { DataTableComponent } from './dataTable/data-table'
-import DatePicker from "react-datepicker"; //import reat-datepicker module
-import "react-datepicker/dist/react-datepicker.css";
-
+import { useEffect, useState } from "react";
+import { format, isToday, isYesterday } from 'date-fns'
+import { DataTableComponent } from "./dataTable/data-table"
+import restActions from '../actions/rest'
+import {getName} from "../actions/general"
 const apiData = []
 export const ResultData = (props) => {
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [schemadata, setSchemadata] = useState([]);
+  const data = new Date();
+  const [selectMonth, setMonth] = useState(data.getMonth()+1);
+  const [selectYear, SetYear] = useState(data.getFullYear());
+  const [allResults, setAllResults] = useState([])
   const cities = []
   const headerData = [
-    { title: 'date', fieldName: 'date' }
+    { title: 'date', fieldName: 'date' },
+    { title: 'Result', fieldName: 'Result' }
   ]
 
-  const fetchData = async() => {
-    console.log(process.env.REACT_APP_API_URL)
-    return fetch("https://jsonplaceholder.typicode.com/user")
-      .then((response) => response.json())
-      .then((data) => setSchemadata(apiData));
+  const fetchData = async (month, year) => {
+    const url = `/public/lottery?month=${month}&year=${year}`
+    const key = 'publishDate'
+    try {
+      const { data: lotteries } = await restActions.GET(url)
+      console.log('Actual count', lotteries.length)
+      const arrayUniqueByKey = [...new Map(lotteries.map(item =>
+        [item[key], item])).values()];
+      setAllResults(arrayUniqueByKey)
+      console.log('Unique count', arrayUniqueByKey.length)
+    } catch (exception) {
+      setAllResults([])
+      console.log('Unable to load data!!', exception)
+    }
+
   }
+
 
   useEffect(() => {
-    fetchData();
+    fetchData(selectMonth, selectYear);
   }, [])
 
-  if (schemadata && schemadata.length) {
-    console.log('Schema data', schemadata)
-    schemadata.forEach((item, index) => {
-      cities.push(...item.cities.filter((item) => cities.indexOf(item.name) < 0).map(x => x.name))
-    })
-    if (cities && cities.length) {
-      cities.forEach(x => headerData.push({ title: x.toUpperCase() }))
-    }
-  }
+
   const handleClick = (filter) => {
-    setSchemadata(schemadata.reverse())
+
   }
   const getHtml = (data) => {
     if (data.length > 0) {
       return data.map((item, index) => {
         return (
-          <tr key={index}>
-            <td style={{ width: '30%' }} className="fixed-column">
-              {item.date}
-              {/* {format(new Date(item.date), 'dd/MM/yyyy')} */}
+          <tr key={index} style={{ textAlignLast: 'center' }}>
+            <td style={{ width: '30%' }}>
+              {format(new Date(item.publishDate), "dd-MM-yyyy hh:mm aaaaa'm'")}
             </td>
-            {cities.map((x, index) => (
-              item.cities && item.cities.length && item.cities.find(y => x === y.name)
-                ? <td key={index} style={{ textAlign: 'center' }}>
-                  {item.cities.find(y => x === y.name).code}
-                </td>
-                : <td key={index} style={{ textAlign: 'center' }}> 0</td>
-            ))}
+            <td style={{ width: '30%' }}>
+              {item.code}
+            </td>
           </tr>
         )
       })
@@ -58,12 +59,8 @@ export const ResultData = (props) => {
       return ''
     }
   }
-  const handleDateChange = (e) => {
-    let filterData = apiData.filter(x => new Date(x.date).setHours(0, 0, 0, 0) === +e)
-    setSchemadata(filterData)
-    setSelectedDate(e)
-  }
-  const pageCount = Math.ceil(schemadata.length / 10)
+
+  const pageCount = Math.ceil(allResults.length / 10)
   const getHeaderHtml = (data) => {
     return (
       <div className="text-center py-2" style={{ backgroundColor: 'aliceblue' }}>
@@ -74,40 +71,104 @@ export const ResultData = (props) => {
       </div>
     )
   }
-  const intialHeaderValues = {
-    header: '--> Result can be placed here <--',
-    brandName: 'Your brand name can come here!',
+  const initialHeaderValues = {
+    header: getName().HindiHeader,
+    brandName: getName().EnglishHeader,
   }
+
+  const SetYearOption = () => {
+    const YearList = [2023]
+    const data = new Date();
+    const currentYear = data.getFullYear()
+
+    for (let index = 2023; index <= currentYear; index++) {
+      if (YearList.indexOf(index) < 0) {
+        YearList.push(index)
+      }
+    }
+    return YearList
+
+
+  }
+
+  const setMonthOption = () => {
+
+    const monthData = {
+      1: 'Jan',
+      2: 'Feb',
+      3: 'Mar',
+      4: 'Apr',
+      5: 'May',
+      6: 'Jun',
+      7: 'Jul',
+      8: 'Aug',
+      9: 'Sep',
+      10: 'Oct',
+      11: 'Nov',
+      12: 'Dec'
+    };
+    const monthList = []
+    for (const value in monthData) {
+      monthList.push({
+        value,
+        displayValue: monthData[value]
+      })
+    }
+    console.log("monthList", monthList)
+    return monthList
+
+
+  }
+
+  const OnMonthChange = (event) => {
+    setMonth(event.target.value)
+    fetchData(event.target.value, selectYear);
+  }
+  const OnSelectedYear = (event) => {
+    SetYear(event.target.value)
+    fetchData(selectMonth, event.target.value);
+  }
+
   return (
     <>
-      {getHeaderHtml(intialHeaderValues)}
+      {getHeaderHtml(initialHeaderValues)}
       <div className='col-12' style={{
         textAlign: '-webkit-center'
       }}>
         <div className="my-2" style={{
-         display: 'inline-flex',
+          display: 'inline-flex',
           fontSize: "1em",
           color: "#32e0c4",
           cursor: "pointer",
           backgroundColor: "gainsboro",
           borderRadius: '0.375rem'
         }} >
-          <DatePicker
-            closeOnScroll={true}
-            className='form-control border'
-            maxDate={new Date()}
-            selected={selectedDate}
-            onChange={handleDateChange}
-            placeholderText="Select date"
-            // isClearable
-            // customInput={<DatePickerCustomInput ref={ref} />}
-            dateFormat="yyyy-MM-dd"
-          />
-          <div className='px-3' title='clear calender' style={{alignSelf : 'center'}}>
-            <i className="fas fa-trash-alt blackiconcolor"  aria-hidden="true" onClick={() => {
-              setSchemadata(apiData)
-              setSelectedDate(null)
-            }}></i>
+
+          <div>
+
+            <select className="custom-select" style={{ width: '200px' }} value={selectMonth} onChange={OnMonthChange}  >
+
+              {setMonthOption().map((item, i) => {
+                return (
+                  <option key={i} value={item.value}>{item.displayValue}</option>
+                )
+              })}
+            </select>
+
+
+            <select
+
+              className="custom-select" style={{ width: '200px' }}
+              value={selectYear}
+              onChange={OnSelectedYear}
+            >
+              {SetYearOption().map((item, i) => {
+                return (
+                  <option key={i} value={item}>{item}</option>
+                )
+              })}
+            </select>
+
           </div>
         </div>
       </div>
@@ -122,12 +183,12 @@ export const ResultData = (props) => {
         }}
         loader={false}
         headerData={headerData}
-        html={getHtml(schemadata)}
-        count={schemadata.length}
+        html={getHtml(allResults)}
+        count={allResults.length}
         pageCount={pageCount}
         // navigate={this.props.navigate} 
         // loader={this.props.loader} 
-        data={schemadata}
+        data={allResults}
         handleClick={handleClick}
       // parentCheck={this.props.parentCheck}
       // isSelect={this.props.isSelect}

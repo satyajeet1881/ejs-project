@@ -94,17 +94,18 @@ export class LotteryService {
        result['publishDate'] = { $gte, $lte }
      }
 
-     if (Object.prototype.hasOwnProperty.call(query, 'time') && !isNil(query['time']) &&
-    Object.prototype.hasOwnProperty.call(query, 'format') && !isNil(query['format'])) {
-       const date = this.getDateQuery(Number(query['time']), query['format'] as string)
-       const $gte = moment(date).startOf('day').toDate()
-       let $lte = moment(new Date()).endOf('day').toDate()
+     const isMonth = Object.prototype.hasOwnProperty.call(query, 'month') && !isNil(query['month'])
+     const isYear = Object.prototype.hasOwnProperty.call(query, 'year') && !isNil(query['year'])
+     if (isMonth && isYear) {
+       const startDate = new Date(`${Number(query.year)}-${Number(query.month)}-01`)
+       const endDate = new Date(`${Number(query.year)}-${Number(query.month) + 1}-01`)
+       const $gte = moment(startDate).startOf('day').toDate()
+       let $lte = moment(endDate).startOf('day').toDate()
        if (currentTimestamp < $lte.valueOf())
          $lte = new Date()
 
        result['publishDate'] = { $gte, $lte }
      }
-
      return result
    }
 

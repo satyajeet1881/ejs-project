@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 import { format, isToday, isYesterday } from 'date-fns'
 import { DataTableComponent } from "./dataTable/data-table"
 import restActions from '../actions/rest'
+import {getName} from "../actions/general"
 import logo from '../images/new.gif'
 import illusion from '../images/advertising.jpeg'
 const initialHeaderValues = {
-  header: 'मेरठ बाज़ार सट्टा किंग 7 PM',
+  header: getName().HindiHeader,
   subHeading: 'आज का बाजार भाव',
-  brandName: 'Your brand name can come here!',
+  brandName: getName().EnglishHeader,
   oldCode: '',
   newCode: '',
-  tableHeader: 'मेरठ बाज़ार सट्टा किंग 7 PM',
-  tableResultTime: format(new Date(), "hh:mm aaaaa'm'")
+  tableHeader: getName().HindiHeader, 
+  tableResultTime: getName().tableResultTime,
 }
 
 const Card = (props) => {
@@ -40,12 +41,12 @@ const Card = (props) => {
 const apiData =[]
 let oldDetail = []
 for (let i = 23; i < 24; i++) {
-  oldDetail.push({ desc: `Meerut Bazar Satta king 7 PM Chart 20${i}` })
+  oldDetail.push({ desc: `${getName().EnglishHeader } Chart 20${i}` })
 }
 let oldDataWithCity = []
 for (let i = 0; i < [...new Set(...apiData.map(x => x.cities.map(y => y.name)))].length; i++) {
   const element = [...new Set(...apiData.map(x => x.cities.map(y => y.name)))][i];
-  oldDataWithCity.push({ desc: ` Meerut Bazar Satta king 7 PM Chart ${element}` })
+  oldDataWithCity.push({ desc: `${getName().EnglishHeader } Chart ${element}` })
 }
 
 export const Home = () => {
@@ -61,12 +62,12 @@ export const Home = () => {
       <div className="text-center py-2" style={{ backgroundColor: '#c3dbf1' }}>
         <div className="col-md-12 col-sm-12 col-xs-12">
           <h2>{data.header}</h2>
-          <p><span className="multicolor">{data.brandName}</span></p>
+          <p><span className="multicolor">{initialHeaderValues.brandName}</span></p>
           <p>
             <span className="">
               <span className="mx-2"> Old : <span style={{ "color": "#c71557" }}>{data.oldCode}</span> </span>
               <span className="mx-2"> New : <span style={{ "color": "#c71557" }}> {data.newCode}</span></span>
-              <span className="mx-2"> <img src={logo} alt={data.brandName} style={{ width: "50px", height: "45px" }} /> </span>
+              <span className="mx-2"> <img src={logo} alt={initialHeaderValues.brandName} style={{ width: "50px", height: "45px" }} /> </span>
             </span>
           </p>
         </div>
@@ -75,9 +76,6 @@ export const Home = () => {
   }
 
   const filterData = (items) => {
-    if(items.length>0){
-      SetBrandName(items[0].lotteryName)
-    }
         items.forEach((item) => {
       if (isYesterday(new Date(item.publishDate))) {
         console.log('found yesterday date and code')
@@ -131,7 +129,7 @@ export const Home = () => {
   }
   return (
     <>
-      {getHeaderHtml({ ...homeData, oldCode: yesterdayCode, newCode: todayCode ,brandName})}
+      {getHeaderHtml({ ...homeData, oldCode: yesterdayCode, newCode: todayCode ,brandName:initialHeaderValues.brandName})}
 
       {/* <div className="row" > */}
       <div className="row mx-2 px-5 " >
@@ -165,7 +163,7 @@ export const Home = () => {
           </div>
         ))}
        <div className='px-2 mt-5'>
-          <p>Meerut Bazar Satta king 7 PM </p>
+          <p> {getName().EnglishHeader} </p>
         </div>
       </div>
   

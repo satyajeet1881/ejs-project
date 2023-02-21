@@ -58,7 +58,7 @@ export const UpdateLottery = (props) => {
                         <form onSubmit={handleSubmit}>
                             <div className='form-group row'>
                                 <label className='col-sm-4 col-form-label'>Lottery name</label>
-                                <div class="col-sm-8">
+                                <div className="col-sm-8">
                                     <input
                                         maxLength={'64'}
                                         type='text'
