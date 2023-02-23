@@ -68,6 +68,85 @@
         }
       }
     },
+    "/auth/login/email/password/link": {
+      "x-swagger-router-controller": "authentication",
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "operationId": "sendResetPasswordLink",
+        "summary": "API for send password link",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "API for send password link",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SendResetPasswordLinkRequest"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/auth/login/email/password/set": {
+      "x-swagger-router-controller": "authentication",
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "operationId": "resetPassword",
+        "summary": "reset Password using otp",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "reset Password using otp",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ResetPasswordRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/LoginPhoneResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
     "/admin/lottery": {
       "x-swagger-router-controller": "lottery",
       "post": {
@@ -551,6 +630,46 @@
     }
   },
   "definitions": {
+    "SendResetPasswordLinkRequest": {
+      "required": [
+        "email"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "minLength": 6,
+          "maxLength": 50,
+          "pattern": "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$",
+          "description": "user Email"
+        }
+      }
+    },
+    "ResetPasswordRequest": {
+      "required": [
+        "email",
+        "password",
+        "otp"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "minLength": 6,
+          "maxLength": 50,
+          "pattern": "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$",
+          "description": "user Email"
+        },
+        "password": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 30,
+          "pattern": "^(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$",
+          "description": "user password"
+        },
+        "otp": {
+          "type": "string"
+        }
+      }
+    },
     "LotteryRequest": {
       "required": [
         "lotteryName",

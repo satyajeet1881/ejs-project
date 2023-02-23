@@ -21,6 +21,10 @@ export interface ApplicationConfig {
   ENCRYPTION_ALGORITHM?: string
   ADMIN_EMAIL?: string
   ADMIN_PASSWORD?: string
+  AWS_ACCESS_KEY_ID?: string
+  AWS_SECRET_ACCESS_KEY?: string
+  FROM_EMAIL?: string
+  SERVER_UI_URL?: string
 }
 export type JWTScopes = Array<'auth' | 'reset_password' | 'verification' | 'intercom' | 'guest' >
 
@@ -74,4 +78,41 @@ export interface MongoCollection {
   Password: Collection<Password>
 }
 
+export interface EmailRequest {
+  from?: string
+  to: string[]
+  cc?: string[]
+  bcc?: string[]
+  attachments?: any[]
+  html?: string
+  subject: string
+  message?: string
+}
+
+export interface EmailTemplatedRequest {
+  email: string
+  html: string
+  subject: string
+}
+
+export interface CreateEmailTemplatedRequest {
+  email: string
+  username: string
+  otp: string
+  adminEmail?: string
+}
+
+export interface SharedResourceEmailTemplatedRequest {
+  email: string
+  otp: string
+  resource: string
+  adminEmail: string
+}
+
+export interface PasswordMailRequest {
+  email: string
+  username: string
+  type: 'SET_PASSWORD' | 'RESET_PASSWORD'
+  adminEmail?: string
+}
 export type UserPassword = Users & {password: string}

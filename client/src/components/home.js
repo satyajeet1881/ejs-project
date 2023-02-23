@@ -49,7 +49,7 @@ for (let i = 0; i < [...new Set(...apiData.map(x => x.cities.map(y => y.name)))]
   oldDataWithCity.push({ desc: `${getName().EnglishHeader } Chart ${element}` })
 }
 
-export const Home = () => {
+export const Home = (props) => {
   const [oldDataWithCityDetail, setOldDataWithCityDetail] = useState(oldDataWithCity);
   const [oldDataDetail, setDataOldDetail] = useState(oldDetail);
   const [brandName, SetBrandName] = useState('')
@@ -132,9 +132,9 @@ export const Home = () => {
       {getHeaderHtml({ ...homeData, oldCode: yesterdayCode, newCode: todayCode ,brandName:initialHeaderValues.brandName})}
 
       {/* <div className="row" > */}
-      <div className="row mx-2 px-5 " >
+      <div className="row mx-3 my-2 " >
       {[{ img: true }, { img: true }].map(x => (
-          <div className="col-sm-6 col-md-3 my-2 ">
+          <div className="col-sm-6 col-md-6 my-2 ">
             {Card(x)}
           </div>
         ))}
@@ -158,13 +158,10 @@ export const Home = () => {
       </div>
       <div className="row mx-3 my-5 py-2 px-2" style={{ backgroundColor: '#c3dbf1' }}>
         {oldDataDetail.map(x => (
-          <div className="col-sm-3 col-md-3 my-2">
+          <div  className="col-sm-3 col-md-3 my-2">
             {Card(x)}
           </div>
         ))}
-       <div className='px-2 mt-5'>
-          <p> {getName().EnglishHeader} </p>
-        </div>
       </div>
   
       {oldDataWithCityDetail && oldDataWithCityDetail.length ?

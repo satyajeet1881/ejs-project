@@ -10,6 +10,12 @@ export interface Users {
   email: string
   name: string
 }
+export interface Tokens {
+  _id: ObjectId
+  verificationKey: string
+  verifyCode: string
+
+}
 
 export interface Lottery {
   _id: ObjectId

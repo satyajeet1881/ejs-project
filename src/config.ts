@@ -24,6 +24,7 @@ class EnvironmentConfig {
   JWT_ISSUER: string
   JWT_AUDIENCE: string
   JWT_EXPIRES_IN: number
+  SERVER_UI_URL: string
   OTP_LENGTH = 6
   TEST_MODE: boolean
   ALLOWED_ORIGINS: string[]
@@ -31,6 +32,10 @@ class EnvironmentConfig {
   ENCRYPTION_KEY: string
   ENCRYPTION_IV: string
   ENCRYPTION_ALGORITHM: string
+  FROM_EMAIL: string
+  AWS_REGION: string
+  AWS_ACCESS_KEY_ID: string
+  AWS_SECRET_ACCESS_KEY: string
   MONGO_DB_URL: string
   consoleTransportOptions: ConsoleTransportOptions
   awsEmailSmtp: any
@@ -52,12 +57,17 @@ class EnvironmentConfig {
     this.NETWORK_WEBHOOK_SECRET = String(config.NETWORK_WEBHOOK_SECRET)
     this.ALLOWED_ORIGINS = config.ALLOWED_ORIGINS ?? ['*']
     this.JWT_ISSUER = String(config?.JWT_ISSUER)
+    this.SERVER_UI_URL = String(config?.SERVER_UI_URL)
     this.JWT_AUDIENCE = String(config?.JWT_AUDIENCE)
     this.ENCRYPTION_KEY = String(config?.ENCRYPTION_KEY)
     this.ENCRYPTION_IV = String(config?.ENCRYPTION_IV)
     this.ENCRYPTION_ALGORITHM = String(config?.ENCRYPTION_ALGORITHM)
     this.ADMIN_EMAIL = String(config?.ADMIN_EMAIL)
     this.ADMIN_PASSWORD = String(config?.ADMIN_PASSWORD)
+    this.AWS_ACCESS_KEY_ID = String(config?.AWS_ACCESS_KEY_ID)
+    this.AWS_SECRET_ACCESS_KEY = String(config?.AWS_SECRET_ACCESS_KEY)
+    this.FROM_EMAIL = String(config?.FROM_EMAIL)
+    this.AWS_REGION = String(config?.AWS_REGION)
     this.PASSWORD_ROUNDS = Number(config.PASSWORD_ROUNDS ?? this.PASSWORD_ROUNDS)
     this.consoleTransportOptions = {
       level: 'info',
