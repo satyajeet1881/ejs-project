@@ -30,7 +30,7 @@ export class EmailService {
           Data: emailRequest.subject
         }
       },
-      Source: 'Technavious <' + env.FROM_EMAIL + ">'" /* required */
+      Source: 'Satyajeet1881 <' + env.FROM_EMAIL + ">'" /* required */
     }
 
     await new awsConfig.SES().sendEmail(params).promise()

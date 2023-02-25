@@ -1,19 +1,19 @@
 {
-  "name": "@technavious/ejs-project",
+  "name": "@satyajeet1881/ejs-project",
   "version": "1.0.0",
   "private": true,
   "description": "ejs-project",
   "keywords": [],
-  "author": "laxman@technavious.com",
+  "author": "satyajeet1881@gmail.com",
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/technavious/ejs-project.git"
+    "url": "git+https://github.com/satyajeet1881/ejs-project.git"
   },
   "bugs": {
-    "url": "https://github.com/technavious/ejs-project/issues"
+    "url": "https://github.com/satyajeet1881/ejs-project/issues"
   },
-  "homepage": "https://github.com/technavious/ejs-project#readme",
+  "homepage": "https://github.com/satyajeet1881/ejs-project#readme",
   "main": "dist/src/index.js",
   "scripts": {
     "build": "lb-clean dist coverage/ejs-project.tsbuildinfo.json && lb-tsc --copy-resources",
