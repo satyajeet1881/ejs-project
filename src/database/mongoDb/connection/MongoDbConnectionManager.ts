@@ -2,7 +2,7 @@ import { connect } from 'mongoose'
 import { MongoCollection } from '../../../typings'
 import { env } from '../../../config'
 import { DbConnectionManager } from '../../base/connection/DbConnectionManager'
-import { Users, Password, Lottery, LotteryName } from '../models'
+import { Users, Password, Lottery, LotteryName, Tokens } from '../models'
 
 export class MongoConnectionManager extends DbConnectionManager {
   private static instance: MongoCollection
@@ -24,7 +24,7 @@ export class MongoConnectionManager extends DbConnectionManager {
     })
 
     return {
-      Users, Password, Lottery, LotteryName
+      Users, Password, Lottery, LotteryName, Tokens
     } as any
   }
 }

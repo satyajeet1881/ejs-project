@@ -3,6 +3,7 @@ import { AuthenticationStrategy, JWTAuthenticationStrategy, BasicAuthenticationS
 import { env } from '../config'
 import { DatabaseInitializer } from '../database/DatabaseInitializer'
 import { LoggerService, SeederService } from '../services'
+import { EmailAuthenticationStrategy } from '../strategies/email.strategy'
 
 export class MigrationObserver {
    private readonly seederService: SeederService
@@ -26,5 +27,6 @@ export class MigrationObserver {
    registerAuthenticationStrategy () {
      registry.register(AuthenticationStrategy, new JWTAuthenticationStrategy(), env.JWT_STRATEGY_NAME)
      registry.register(AuthenticationStrategy, new BasicAuthenticationStrategy(), env.BASIC_STRATEGY_NAME)
+     registry.register(AuthenticationStrategy, new EmailAuthenticationStrategy(), env.EMAIL_STRATEGY_NAME)
    }
 }

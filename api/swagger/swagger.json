@@ -660,9 +660,7 @@
         },
         "password": {
           "type": "string",
-          "minLength": 8,
-          "maxLength": 30,
-          "pattern": "^(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$",
+          "minLength": 2,
           "description": "user password"
         },
         "otp": {

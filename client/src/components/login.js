@@ -2,6 +2,7 @@ import { useState } from "react"
 import jwt_decode from 'jwt-decode'
 import { ToastContainer } from 'react-toastify'
 import { storageActions } from "../actions"
+import { Link } from 'react-router-dom'
 import restActions from "../actions/rest"
 import NotificationMessage from "../notification/NotificationMessage"
 import { useNavigate } from 'react-router-dom'
@@ -94,6 +95,13 @@ export const LoginComponent = (props) => {
             <button type='button' className='btn btn-secondary btn-block' onClick={submitLoginDetail}>LOGIN</button>
           }
         </div>
+        <div className='d-flex justify-content-between align-items-right'>
+                  <label></label>
+                  <Link to='/account/set-password' className='font-size-1-5 btn-link'>
+                    {' '}
+                    Forgot Password?
+                  </Link>
+                </div>
       </div>
     </div>
   )

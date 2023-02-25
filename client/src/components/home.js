@@ -5,6 +5,7 @@ import restActions from '../actions/rest'
 import {getName} from "../actions/general"
 import logo from '../images/new.gif'
 import illusion from '../images/advertising.jpeg'
+import { useNavigate, useParams } from 'react-router-dom'
 const initialHeaderValues = {
   header: getName().HindiHeader,
   subHeading: 'आज का बाजार भाव',
@@ -15,10 +16,13 @@ const initialHeaderValues = {
   tableResultTime: getName().tableResultTime,
 }
 
+
+
+
 const Card = (props) => {
   const { title, desc, updated, img } = props
   return (
-    <div className="card" >
+    <div className="card">
       {
         title &&
         <div className="card-header">{title}</div>
@@ -49,10 +53,13 @@ for (let i = 0; i < [...new Set(...apiData.map(x => x.cities.map(y => y.name)))]
   oldDataWithCity.push({ desc: `${getName().EnglishHeader } Chart ${element}` })
 }
 
-export const Home = (props) => {
+export const Home = () => {
+  const navigate = useNavigate()
+  const sendOnResult = (props)=>{
+    props.navigate('/result')
+  }
   const [oldDataWithCityDetail, setOldDataWithCityDetail] = useState(oldDataWithCity);
   const [oldDataDetail, setDataOldDetail] = useState(oldDetail);
-  const [brandName, SetBrandName] = useState('')
   const [homeData, setHomeData] = useState(initialHeaderValues);
   const [yesterdayCode, setYesterdayCode] = useState('')
   const [todayCode, setTodayCode] = useState('')
@@ -74,6 +81,8 @@ export const Home = (props) => {
       </div>
     )
   }
+
+
 
   const filterData = (items) => {
         items.forEach((item) => {
@@ -158,7 +167,9 @@ export const Home = (props) => {
       </div>
       <div className="row mx-3 my-5 py-2 px-2" style={{ backgroundColor: '#c3dbf1' }}>
         {oldDataDetail.map(x => (
-          <div  className="col-sm-3 col-md-3 my-2">
+          <div onClick={()=>{
+            sendOnResult({navigate})
+          }} className="col-sm-3 col-md-3 my-2">
             {Card(x)}
           </div>
         ))}

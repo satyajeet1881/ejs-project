@@ -9,6 +9,8 @@ import { NotFound } from './components/notFound'
 import CheckAuth from './authenticatedRoutes/authenticatedRoute'
 import { Dashboard } from './components/dashboard'
 import { storageActions } from './actions'
+import ForgotPasswordResetLinkContainer from './container/forgot-password/ResetLink'
+import ForgotPasswordResetPasswordContainer from './container/forgot-password/ResetPassword'
 function App() {
   let dateUrl = new Date()
   const isAuthenticated = storageActions.getItem('isAuthenticated')
@@ -22,7 +24,12 @@ function App() {
       <Routes>
         <Route exact path='/' element={<Home />} />
         <Route exact path='/result' element={<ResultData />} />
-        <Route exact path={logURL} element={<LoginComponent />} />\
+        <Route exact path={logURL} element={<LoginComponent />} />
+        <Route path='/account/set-password' element={<ForgotPasswordResetLinkContainer />}></Route>
+      <Route
+        path='/account/set-password/:otp'
+        element={<ForgotPasswordResetPasswordContainer />}
+      ></Route>
         <Route
           // exact path='/board'
           element={
@@ -33,9 +40,9 @@ function App() {
         >
           <Route exact path='/board' element={<Dashboard />}></Route>
         </Route>
-        <Route path='*' element={<NotFound />} />
+        <Route path='*' element={<Home />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   )
 }

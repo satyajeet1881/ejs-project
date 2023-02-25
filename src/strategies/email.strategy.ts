@@ -1,6 +1,6 @@
 import { Request } from 'express'
-import { get, isNil } from 'lodash'
-import { TokenRepository } from '../database/repository'
+import { get, isNil, pick } from 'lodash'
+import { TokenRepository, UserRepository } from '../database/repository'
 import { EncryptionService } from '../services'
 import { UserProfile } from '../typings'
 import { unauthorized } from '../utils'
@@ -8,9 +8,10 @@ import { AuthenticationStrategy } from './authentication.strategies'
 
 export class EmailAuthenticationStrategy implements AuthenticationStrategy {
     private readonly tokenRepository: TokenRepository
+    private readonly userRepository: UserRepository
     constructor () {
       this.tokenRepository = new TokenRepository()
-      this.tokenRepository = new TokenRepository()
+      this.userRepository = new UserRepository()
     }
 
     async authenticate (request: Request): Promise<UserProfile> {
@@ -24,6 +25,8 @@ export class EmailAuthenticationStrategy implements AuthenticationStrategy {
         throw unauthorized('invalid otp')
 
       await this.tokenRepository.removeToken(credentials.email, credentials.otp)
-      return { email: credentials.email, _id: credentials.email, scopes: 'test', name: 'admin' }
+      const user = await this.userRepository.getUser(credentials.email)
+      const fields = ['_id', 'name', 'email']
+      return pick(user, fields) as unknown as UserProfile
     }
 }

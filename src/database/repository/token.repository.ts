@@ -14,6 +14,6 @@ export class TokenRepository {
 
   async removeToken(verificationKey: string, verifyCode: string): Promise<Tokens> {
     const dbInstance = await DatabaseInitializer.getInstance().getConnection()
-    return dbInstance.Tokens.remove({ verificationKey, verifyCode })
+    return dbInstance.Tokens.deleteOne({ verificationKey, verifyCode })
   }
 }
