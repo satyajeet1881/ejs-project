@@ -80,7 +80,10 @@ export class LotteryService {
    }
 
    getPublicQuery(query: {[key: string]: string | Date | number}): any {
-     const result = {} as any
+     const result = {
+       publishDate: { $lte: new Date() }
+
+     } as any
      const currentTimestamp = new Date().valueOf()
      if (Object.prototype.hasOwnProperty.call(query, 'lotteryName') && !isNil(query['lotteryName']))
        result['lotteryName'] = query.lotteryName
