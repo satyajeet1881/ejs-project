@@ -138,6 +138,21 @@ export class LotteryService {
      }
    }
 
+   async getLotteryCounter(): Promise<{ duration: number }> {
+     const $gte = moment(new Date()).startOf('day').toDate()
+     const $lte = moment(new Date()).endOf('day').toDate()
+
+     const data = await this.lotteryRepository.getSingleLottery({ publishDate: { $gte, $lte } })
+     if (!isNil(data)) {
+       const currentValue = new Date().valueOf()
+       const publishDateValue = new Date(data.publishDate).valueOf()
+       const seconds = Math.floor((publishDateValue - currentValue) / 1000)
+       return { duration: seconds }
+     }
+
+     return { duration: -1 }
+   }
+
    public static get Instance () {
      if (isNil(this.instance))
        this.instance = new this()

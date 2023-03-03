@@ -40,6 +40,10 @@ async function getPublicLotteryData ({ request }: ControllersRequest) {
   return LotteryService.Instance.getPublicData(query)
 }
 
+async function getLotteryCounter () {
+  return LotteryService.Instance.getLotteryCounter()
+}
+
 module.exports = {
   createLottery: send(createLottery, { auth: 'jwtAuth' }),
   getLotteryData: send(getLotteryData, { auth: 'jwtAuth' }),
@@ -47,7 +51,7 @@ module.exports = {
   getLotteryName: send(getLotteryName, { auth: 'jwtAuth' }),
   deleteLotteryName: send(deleteLotteryName, { auth: 'jwtAuth' }),
   getPublicLotteryData: send(getPublicLotteryData, {}),
-
+  getLotteryCounter: send(getLotteryCounter, {}),
   deleteLottery: send(deleteLottery, { auth: 'jwtAuth' }),
   updateLottery: send(updateLottery, { auth: 'jwtAuth' })
 }

@@ -627,6 +627,42 @@
           }
         }
       }
+    },
+    "/public/lottery-counter": {
+      "x-swagger-router-controller": "lottery",
+      "get": {
+        "tags": [
+          "Lottery"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "getLotteryCounter",
+        "summary": "get lottery counter",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {

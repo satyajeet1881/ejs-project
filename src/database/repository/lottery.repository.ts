@@ -12,6 +12,11 @@ export class LotteryRepository {
     return dbInstance.Lottery.find({ ...query, isDeleted: false }).sort({ publishDate: -1 }).skip(filter.skip).limit(filter.limit)
   }
 
+  async getSingleLottery(query: any): Promise<Lottery> {
+    const dbInstance = await DatabaseInitializer.getInstance().getConnection()
+    return dbInstance.Lottery.findOne({ ...query, isDeleted: false }).sort({ publishDate: -1 })
+  }
+
   async updateLottery(query: any, update: Partial<Lottery>) {
     const dbInstance = await DatabaseInitializer.getInstance().getConnection()
     return dbInstance.Lottery.updateOne(query, { $set: update })

@@ -6,6 +6,8 @@ import {getName} from "../actions/general"
 import logo from '../images/new.gif'
 import illusion from '../images/advertising.jpeg'
 import { useNavigate, useParams } from 'react-router-dom'
+import {TimerClass} from "./timer"
+import { isNil } from "lodash";
 const initialHeaderValues = {
   header: getName().HindiHeader,
   subHeading: 'आज का बाजार भाव',
@@ -59,6 +61,7 @@ export const Home = () => {
     props.navigate('/result')
   }
   const [oldDataWithCityDetail, setOldDataWithCityDetail] = useState(oldDataWithCity);
+  const [time, setTimeData] = useState(-1);
   const [oldDataDetail, setDataOldDetail] = useState(oldDetail);
   const [homeData, setHomeData] = useState(initialHeaderValues);
   const [yesterdayCode, setYesterdayCode] = useState('')
@@ -72,10 +75,11 @@ export const Home = () => {
           <p><span className="multicolor">{initialHeaderValues.brandName}</span></p>
           <p>
             <span className="">
+         
               <span className="mx-2"> Old : <span style={{ "color": "#c71557" }}>{data.oldCode}</span> </span>
               <span className="mx-2"> New : <span style={{ "color": "#c71557" }}> {data.newCode}</span></span>
               <span className="mx-2"> <img src={logo} alt={initialHeaderValues.brandName} style={{ width: "50px", height: "45px" }} /> </span>
-            </span>
+             </span>
           </p>
         </div>
       </div>
@@ -86,15 +90,24 @@ export const Home = () => {
 
   const filterData = (items) => {
         items.forEach((item) => {
-      if (isYesterday(new Date(item.publishDate))) {
-        console.log('found yesterday date and code')
-        setYesterdayCode(item.code)
-      }
-      if (isToday(new Date(item.publishDate))) {
-        console.log('found todays date and code')
-        setTodayCode(item.code)
-      }
-    })
+          if (isYesterday(new Date(item.publishDate))) {
+            console.log('found yesterday date and code')
+            setYesterdayCode(item.code)
+          }else if(items.length>=1){
+             const today = isToday(new Date(items[0].publishDate))
+             if(!today){
+              setYesterdayCode(items[0].code)
+             }else if(today && items.length>=2) {
+              setYesterdayCode(items[1].code)
+             }
+
+          }
+          if (isToday(new Date(item.publishDate))) {
+            console.log('found todays date and code')
+            setTodayCode(item.code)
+          }
+          
+  })
   }
 
   const fetchData = async () => {
@@ -115,8 +128,26 @@ export const Home = () => {
 
   }
 
+  const fetchTimerData = async () => {
+    const url = '/public/lottery-counter'
+    try {
+      const data = await restActions.GET(url)
+      console.log('Actual count', data.data.duration)
+      if(!isNil(data) && !isNil(data.data)){
+        setTimeData(data.data.duration)
+      }
+  
+  
+    } catch (exception) {
+      setHomeData([])
+      console.log('Unable to load data!!', exception)
+    }
+
+  }
+
   useEffect(() => {
     fetchData();
+    fetchTimerData()
   }, [])
   const getHtml = (data) => {
     if (data.length > 0) {
@@ -139,6 +170,13 @@ export const Home = () => {
   return (
     <>
       {getHeaderHtml({ ...homeData, oldCode: yesterdayCode, newCode: todayCode ,brandName:initialHeaderValues.brandName})}
+     
+         <div>
+         {time<=0?<div></div>:<TimerClass  timeLeft={time} ></TimerClass>}
+         </div>
+
+
+
 
       {/* <div className="row" > */}
       <div className="row mx-3 my-2 " >
@@ -149,6 +187,8 @@ export const Home = () => {
         ))}
       </div>
       {/* </div> */}
+     
+
       <div className="mx-3 my-2" style={{ backgroundColor: '#c3dbf1' }}>
         <div className='pt-2 px-3'>
           <h4>{initialHeaderValues.tableHeader}</h4>
@@ -165,6 +205,8 @@ export const Home = () => {
           />
         </div>
       </div>
+ 
+    
       <div className="row mx-3 my-5 py-2 px-2" style={{ backgroundColor: '#c3dbf1' }}>
         {oldDataDetail.map(x => (
           <div onClick={()=>{
